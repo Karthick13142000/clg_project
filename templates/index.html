@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduGenie - AI Learning Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <h1>EduGenie <span class="logo">&#129302;</span></h1>
+    <p class="tagline">Your AI study partner, powered by Google Gemini</p>
+    <p class="model">Model: <code>{{ model or "not configured" }}</code></p>
+  </header>
+
+  <main>
+    <!-- Tab bar -->
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-panel="ask-panel" role="tab" aria-selected="true">
+        <span class="tab-icon" aria-hidden="true">&#128161;</span>Ask a Question
+      </button>
+      <button class="tab" data-panel="summary-panel" role="tab" aria-selected="false">
+        <span class="tab-icon" aria-hidden="true">&#128209;</span>Summarize Notes
+      </button>
+      <button class="tab" data-panel="quiz-panel" role="tab" aria-selected="false">
+        <span class="tab-icon" aria-hidden="true">&#127919;</span>Generate Quiz
+      </button>
+    </nav>
+
+    <!-- 1. Ask -->
+    <section id="ask-panel" class="panel" role="tabpanel">
+      <h2>Ask anything</h2>
+      <p class="hint">Get a clear explanation, example by example.</p>
+      <label for="question">What is your doubt?</label>
+      <textarea id="question" rows="4" placeholder="e.g. Explain the difference between a list and a tuple in Python"></textarea>
+      <div class="row">
+        <button class="primary" data-action="ask">Ask</button>
+        <button class="ghost" data-clear="question">Clear</button>
+      </div>
+      <div class="result" data-result hidden>
+        <div class="result-bar">
+          <span class="result-title">Answer</span>
+          <button class="ghost small" data-copy="answer">Copy</button>
+        </div>
+        <div class="output" id="answer" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 2. Summarize -->
+    <section id="summary-panel" class="panel hidden" role="tabpanel">
+      <h2>Summarize notes</h2>
+      <p class="hint">Paste long notes and get the key points back.</p>
+      <label for="notes">Paste your notes</label>
+      <textarea id="notes" rows="8" placeholder="Paste lecture notes or a textbook paragraph here..."></textarea>
+      <div class="meta"><span id="notes-count">0</span> characters</div>
+      <div class="row">
+        <button class="primary" data-action="summarize">Summarize</button>
+        <button class="ghost" data-clear="notes">Clear</button>
+      </div>
+      <div class="result" data-result hidden>
+        <div class="result-bar">
+          <span class="result-title">Summary</span>
+          <button class="ghost small" data-copy="summary">Copy</button>
+        </div>
+        <div class="output" id="summary" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 3. Quiz -->
+    <section id="quiz-panel" class="panel hidden" role="tabpanel">
+      <h2>Generate a quiz</h2>
+      <p class="hint">Practice questions on any topic you are studying.</p>
+      <label for="topic">Enter a topic</label>
+      <input id="topic" type="text" placeholder="e.g. Photosynthesis, DBMS normalization, HTML forms">
+      <div class="row">
+        <button class="primary" data-action="quiz">Generate Quiz</button>
+        <button class="ghost" data-clear="topic">Clear</button>
+      </div>
+      <div class="result" data-result hidden>
+        <div class="result-bar">
+          <span class="result-title">Quiz</span>
+          <button class="ghost small" data-copy="quiz">Copy</button>
+        </div>
+        <div class="output" id="quiz" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>EduGenie &middot; Flask + Google Gemini &middot; AI output may be inaccurate, verify before using in exams.</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
